@@ -16,12 +16,15 @@ Gitlab:
 Usage: commandline [OPTIONS] COMMAND [ARGS]...
 
 Options:
+  --version   Show the version and exit
   -h, --help  Show this message and exit
 
 Commands:
-  play-store-publish    Publish app on the play store
-  play-store-list-apks  List all apk published on the play store
-  gitlab-release        Create gitlab release
+  play-store-publish     Publish app on the play store
+  play-store-list-apks   List all apk published on the play store
+  gitlab-create-release  Create gitlab release
+  gitlab-update-release  Update gitlab release
+  gitlab-delete-release  Delete gitlab release
 ```
 
 ## List all apk already published on the play store command
@@ -61,25 +64,60 @@ Options:
 ```
 
 ## Create a new release in Gitlab
-`./acdt gitlab-release -h`
+`./acdt gitlab-create-release -h`
 ```
-Usage: commandline gitlab-release [OPTIONS]
+Usage: commandline gitlab-create-release [OPTIONS]
 
   Create gitlab release
 
 Options:
-  -u, --url TEXT                  Gitlab url
-  -t, --access-token TEXT         Your Gitlab access token
-  -p, --project-id TEXT           Your Gitlab project id
-  -N, --release-name TEXT         Release name
-  -D, --release-description TEXT  Release description
-  -T, --tag-name TEXT             Tag name associated to the release
-  -M, --release-milestone TEXT    Milestone associated to the release, if
-                                  several separated by semicolon
-  -h, --help                      Show this message and exit
+  -u, --url TEXT                   Gitlab url
+  -t, --access-token TEXT          Your Gitlab access token
+  -p, --project-id TEXT            Your Gitlab project id
+  -T, --tag-name TEXT              Tag name associated to the release
+  -N, --release-name TEXT          Release name
+  -D, --release-description VALUE  Release description
+  -M, --release-milestone TEXT     Milestone associated to the release, if
+                                   several separated by semicolon
+  -h, --help                       Show this message and exit
+```
+
+## Update a release in Gitlab
+`./acdt gitlab-update-release -h`
+```
+Usage: commandline gitlab-update-release [OPTIONS]
+
+  Update gitlab release
+
+Options:
+  -u, --url TEXT                   Gitlab url
+  -t, --access-token TEXT          Your Gitlab access token
+  -p, --project-id TEXT            Your Gitlab project id
+  -T, --tag-name TEXT              Tag name associated to the release
+  -N, --release-name TEXT          Release name
+  -D, --release-description VALUE  Release description
+  -M, --release-milestone TEXT     Milestone associated to the release, if
+                                   several separated by semicolon
+  -h, --help                       Show this message and exit
+```
+
+## Delete a release in Gitlab
+`./acdt gitlab-delete-release -h`
+```
+Usage: commandline gitlab-delete-release [OPTIONS]
+
+  Delete gitlab release
+
+Options:
+  -u, --url TEXT           Gitlab url
+  -t, --access-token TEXT  Your Gitlab access token
+  -p, --project-id TEXT    Your Gitlab project id
+  -T, --tag-name TEXT      Tag name associated to the release
+  -h, --help               Show this message and exit
 ```
 
 # How to build
-./gradlew run => run main class  
-./gradlew distZip => generate zip release: build/distributions/acdt-0.1.0.zip  
-./gradlew installDist => generate runnable executable: build/install/acdt/bin/acdt  
+`./gradlew run` : run main class  
+`./gradlew distZip` : generate zip release: build/distributions/acdt-0.1.0.zip
+`./gradlew distTar` : generate zip release: build/distributions/acdt-0.1.0.tar  
+`./gradlew installDist` : generate runnable executable: build/install/acdt/bin/acdt  

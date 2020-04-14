@@ -1,0 +1,1 @@
+changelogs/en/GB/v1.1.0.txt

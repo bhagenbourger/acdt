@@ -1,0 +1,1 @@
+changelogs/fr/FR/v1.1.0.txt

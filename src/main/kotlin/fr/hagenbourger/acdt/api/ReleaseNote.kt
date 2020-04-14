@@ -1,6 +1,8 @@
 package fr.hagenbourger.acdt.api
 
+import java.io.File
+
 interface ReleaseNote {
 
-    fun generateAll(fr: String, en: String): Map<String, String>
+    fun generate(folder: File, version: String): Map<String, String>
 }

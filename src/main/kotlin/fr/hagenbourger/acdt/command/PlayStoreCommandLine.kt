@@ -15,7 +15,7 @@ abstract class PlayStore(name: String, help: String) : CliktCommand(name = name,
         "-c",
         "--credentials-p12",
         help = "Credentials p12 file"
-    ).file().required()
+    ).file(mustExist = true, mustBeReadable = true, canBeFile = true).required()
     protected val serviceAccountId: String by option(
         "-i",
         "--service-account-id",
@@ -44,20 +44,17 @@ class PlayStorePublish : PlayStore(name = "play-store-publish", help = "Publish 
         "-K",
         "--apk",
         help = "APK file"
-    ).file().required()
+    ).file(mustExist = true, mustBeReadable = true, canBeFile = true).required()
     private val track: String by option(
         "-T",
         "--track",
         help = "Set track (alpha / beta / production)"
     ).choice("alpha", "beta", "production").required()
-    private val releaseNoteFr: String by option(
-        "--release-note-fr",
-        help = "Release note content in french"
-    ).required()
-    private val releaseNoteEn: String by option(
-        "--release-note-en",
-        help = "Release note content in english"
-    ).required()
+    private val releaseNotes: File by option(
+        "-R",
+        "--release-notes",
+        help = "Release notes folder"
+    ).file(mustExist = true, mustBeReadable = true, canBeDir = true).required()
 
     override fun run() {
         echo("Start publishing app")
@@ -66,7 +63,7 @@ class PlayStorePublish : PlayStore(name = "play-store-publish", help = "Publish 
             credentialsP12 = credentialsP12,
             appName = appName,
             appPackageName = appPackageName
-        ).publish(appVersion, apk, track, ReleaseNoteImpl().generateAll(releaseNoteFr, releaseNoteEn))
+        ).publish(appVersion, apk, track, ReleaseNoteImpl().generate(releaseNotes, appVersion))
         echo("App published")
     }
 }

@@ -7,7 +7,9 @@ Google Play Store:
 - publish a new version of an app
 
 Gitlab:
-- create new release
+- create a new release
+- update a release
+- delete a release
 
 # Usage
 ## All commands
@@ -58,10 +60,52 @@ Options:
   -K, --apk PATH                   APK file
   -T, --track [alpha|beta|production]
                                    Set track (alpha / beta / production)
-  --release-note-fr TEXT           Release note content in french
-  --release-note-en TEXT           Release note content in english
+  -R, --release-notes PATH         Release notes folder
   -h, --help                       Show this message and exit
 ```
+
+### Release notes
+You can specify release notes in text files for each locale, or each language or a default one for all your languages.
+
+#### Tree folder
+First level must be the language code and second level must be the country code.  
+A default file named `default.txt` can be defined at each level.  
+A version file named `<app-version>.txt` can also be defined at each level. The filename should exactly match the version set as parameter `--app-version` to be considered.
+
+#### Priorities
+Release notes files are selected in this order:
+1. Looking for corresponding version file in the country folder
+2. Fallback on the default file in the country folder
+3. Fallback on the version file in the language folder
+4. Fallback on the default file in the country folder
+5. Fallback on the version file at the top-level
+6. Fallback on the default file at the top-level
+
+#### Example
+```bash
+changelogs
+├── default.txt
+├── en
+│   ├── AU
+│   │   └── default.txt
+│   ├── GB
+│   │   ├── default.txt
+│   │   └── v1.1.0.txt
+│   ├── US
+│   └── default.txt
+├── fr
+│   ├── CA
+│   ├── FR
+│   │   └── v1.1.0.txt
+│   ├── v1.0.0.txt
+└── v1.0.0.txt
+```
+Considering the tree above, the release notes for the version v1.1.0 will be:
+- en-AU: changelogs/en/AU/default.txt
+- en-GB: changelogs/en/GB/v1.1.0.txt
+- en-US: changelogs/en/default.txt
+- fr-CA: changelogs/default.txt
+- fr-FR: changelogs/fr/FR/v1.1.0.txt
 
 ## Create a new release in Gitlab
 `./acdt gitlab-create-release -h`
@@ -118,6 +162,6 @@ Options:
 
 # How to build
 `./gradlew run` : run main class  
-`./gradlew distZip` : generate zip release: build/distributions/acdt-0.1.0.zip
+`./gradlew distZip` : generate zip release: build/distributions/acdt-0.1.0.zip  
 `./gradlew distTar` : generate zip release: build/distributions/acdt-0.1.0.tar  
 `./gradlew installDist` : generate runnable executable: build/install/acdt/bin/acdt  

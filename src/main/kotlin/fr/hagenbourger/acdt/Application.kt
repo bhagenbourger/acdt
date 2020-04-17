@@ -14,6 +14,7 @@ object Application {
             PlayStoreListApks(),
             GitlabCreateRelease(),
             GitlabUpdateRelease(),
-            GitlabDeleteRelease()
+            GitlabDeleteRelease(),
+            ChangelogGenerate()
         ).main(args)
 }

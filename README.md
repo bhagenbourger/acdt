@@ -11,6 +11,9 @@ Gitlab:
 - update a release
 - delete a release
 
+Changelog:
+- Generate a changelog from release note files
+
 # Usage
 ## All commands
 `./acdt -h`
@@ -27,6 +30,7 @@ Commands:
   gitlab-create-release  Create gitlab release
   gitlab-update-release  Update gitlab release
   gitlab-delete-release  Delete gitlab release
+  changelog-generate     Generate changelog
 ```
 
 ## List all apk already published on the play store command
@@ -160,8 +164,26 @@ Options:
   -h, --help               Show this message and exit
 ```
 
+## Generate changelog
+`./acdt changelog-generate -h`
+```
+Usage: commandline changelog-generate [OPTIONS]
+
+  Generate changelog
+
+Options:
+  -R, --release-notes PATH         Release notes folder
+  -V, --version TEXT               Version
+  -F, --output-format [MARKDOWN|JSON|XML]
+                                   Set output format (Default MARKDOWN)
+  -h, --help                       Show this message and exit
+```
+
+Changelog is generated from a release notes folder which must be structured like for `play-store-publish` command. But unlike for `play-store-publish` command, `changelog-generate` command considers only folders containing `version.txt` file and ignores `default.txt` files.  
+
 # How to build
 `./gradlew run` : run main class  
 `./gradlew distZip` : generate zip release: build/distributions/acdt-0.1.0.zip  
 `./gradlew distTar` : generate zip release: build/distributions/acdt-0.1.0.tar  
-`./gradlew installDist` : generate runnable executable: build/install/acdt/bin/acdt  
+`./gradlew installDist` : generate runnable executable: build/install/acdt/bin/acdt
+  

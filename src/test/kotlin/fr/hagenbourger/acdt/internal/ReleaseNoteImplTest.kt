@@ -15,54 +15,93 @@ class ReleaseNoteImplTest {
     }
 
     @Test
-    fun shouldGenerateAllForV100() {
-        val releaseNotes: Map<String, String> = folder?.let { ReleaseNoteImpl().generate(it, "v1.0.0") }.orEmpty()
+    fun shouldGenerateWithDefaultForV100() {
+        val releaseNotes: Map<String, String> =
+            folder?.let { ReleaseNoteImpl().generateWithDefault(it, "v1.0.0") }.orEmpty()
 
-        Assert.assertEquals(releaseNotes.size, 5)
-        Assert.assertEquals(releaseNotes["en-AU"], "changelogs/en/AU/default.txt")
-        Assert.assertEquals(releaseNotes["en-GB"], "changelogs/en/GB/default.txt")
-        Assert.assertEquals(releaseNotes["en-US"], "changelogs/en/default.txt")
-        Assert.assertEquals(releaseNotes["fr-CA"], "changelogs/fr/v1.0.0.txt")
-        Assert.assertEquals(releaseNotes["fr-FR"], "changelogs/fr/v1.0.0.txt")
+        Assert.assertEquals(5, releaseNotes.size)
+        Assert.assertEquals("changelogs/en/AU/default.txt", releaseNotes["en-AU"])
+        Assert.assertEquals("changelogs/en/GB/default.txt", releaseNotes["en-GB"])
+        Assert.assertEquals("changelogs/en/default.txt", releaseNotes["en-US"])
+        Assert.assertEquals("changelogs/fr/v1.0.0.txt", releaseNotes["fr-CA"])
+        Assert.assertEquals("changelogs/fr/v1.0.0.txt", releaseNotes["fr-FR"])
         Assert.assertNull(releaseNotes[""])
     }
 
     @Test
-    fun shouldGenerateAllForV110() {
-        val releaseNotes: Map<String, String> = folder?.let { ReleaseNoteImpl().generate(it, "v1.1.0") }.orEmpty()
+    fun shouldGenerateWithDefaultForV110() {
+        val releaseNotes: Map<String, String> =
+            folder?.let { ReleaseNoteImpl().generateWithDefault(it, "v1.1.0") }.orEmpty()
 
-        Assert.assertEquals(releaseNotes.size, 5)
-        Assert.assertEquals(releaseNotes["en-AU"], "changelogs/en/AU/default.txt")
-        Assert.assertEquals(releaseNotes["en-GB"], "changelogs/en/GB/v1.1.0.txt")
-        Assert.assertEquals(releaseNotes["en-US"], "changelogs/en/default.txt")
-        Assert.assertEquals(releaseNotes["fr-CA"], "changelogs/default.txt")
-        Assert.assertEquals(releaseNotes["fr-FR"], "changelogs/fr/FR/v1.1.0.txt")
+        Assert.assertEquals(5, releaseNotes.size)
+        Assert.assertEquals("changelogs/en/AU/default.txt", releaseNotes["en-AU"])
+        Assert.assertEquals("changelogs/en/GB/v1.1.0.txt", releaseNotes["en-GB"])
+        Assert.assertEquals("changelogs/en/default.txt", releaseNotes["en-US"])
+        Assert.assertEquals("changelogs/default.txt", releaseNotes["fr-CA"])
+        Assert.assertEquals("changelogs/fr/FR/v1.1.0.txt", releaseNotes["fr-FR"])
         Assert.assertNull(releaseNotes[""])
     }
 
     @Test
-    fun shouldGenerateAllForV120() {
-        val releaseNotes: Map<String, String> = folder?.let { ReleaseNoteImpl().generate(it, "v1.2.0") }.orEmpty()
+    fun shouldGenerateWithDefaultForV120() {
+        val releaseNotes: Map<String, String> =
+            folder?.let { ReleaseNoteImpl().generateWithDefault(it, "v1.2.0") }.orEmpty()
 
-        Assert.assertEquals(releaseNotes.size, 5)
-        Assert.assertEquals(releaseNotes["en-AU"], "changelogs/en/AU/default.txt")
-        Assert.assertEquals(releaseNotes["en-GB"], "changelogs/en/GB/default.txt")
-        Assert.assertEquals(releaseNotes["en-US"], "changelogs/en/default.txt")
-        Assert.assertEquals(releaseNotes["fr-CA"], "changelogs/v1.2.0.txt")
-        Assert.assertEquals(releaseNotes["fr-FR"], "changelogs/v1.2.0.txt")
+        Assert.assertEquals(5, releaseNotes.size)
+        Assert.assertEquals("changelogs/en/AU/default.txt", releaseNotes["en-AU"])
+        Assert.assertEquals("changelogs/en/GB/default.txt", releaseNotes["en-GB"])
+        Assert.assertEquals("changelogs/en/default.txt", releaseNotes["en-US"])
+        Assert.assertEquals("changelogs/v1.2.0.txt", releaseNotes["fr-CA"])
+        Assert.assertEquals("changelogs/v1.2.0.txt", releaseNotes["fr-FR"])
         Assert.assertNull(releaseNotes[""])
     }
 
     @Test
-    fun shouldGenerateAllForV200() {
-        val releaseNotes: Map<String, String> = folder?.let { ReleaseNoteImpl().generate(it, "v2.0.0") }.orEmpty()
+    fun shouldGenerateWithDefaultForV200() {
+        val releaseNotes: Map<String, String> =
+            folder?.let { ReleaseNoteImpl().generateWithDefault(it, "v2.0.0") }.orEmpty()
 
-        Assert.assertEquals(releaseNotes.size, 5)
-        Assert.assertEquals(releaseNotes["en-AU"], "changelogs/en/AU/default.txt")
-        Assert.assertEquals(releaseNotes["en-GB"], "changelogs/en/GB/default.txt")
-        Assert.assertEquals(releaseNotes["en-US"], "changelogs/en/default.txt")
-        Assert.assertEquals(releaseNotes["fr-CA"], "changelogs/default.txt")
-        Assert.assertEquals(releaseNotes["fr-FR"], "changelogs/default.txt")
+        Assert.assertEquals(5, releaseNotes.size)
+        Assert.assertEquals("changelogs/en/AU/default.txt", releaseNotes["en-AU"])
+        Assert.assertEquals("changelogs/en/GB/default.txt", releaseNotes["en-GB"])
+        Assert.assertEquals("changelogs/en/default.txt", releaseNotes["en-US"])
+        Assert.assertEquals("changelogs/default.txt", releaseNotes["fr-CA"])
+        Assert.assertEquals("changelogs/default.txt", releaseNotes["fr-FR"])
         Assert.assertNull(releaseNotes[""])
+    }
+
+    @Test
+    fun shouldGenerateForVersionForV100() {
+        val releaseNotes: Map<String, String> =
+            folder?.let { ReleaseNoteImpl().generateForVersion(it, "v1.0.0") }.orEmpty()
+
+        Assert.assertEquals(1, releaseNotes.size)
+        Assert.assertEquals("changelogs/fr/v1.0.0.txt", releaseNotes["fr"])
+    }
+
+    @Test
+    fun shouldGenerateForVersionForV110() {
+        val releaseNotes: Map<String, String> =
+            folder?.let { ReleaseNoteImpl().generateForVersion(it, "v1.1.0") }.orEmpty()
+
+        Assert.assertEquals(2, releaseNotes.size)
+        Assert.assertEquals("changelogs/en/GB/v1.1.0.txt", releaseNotes["en-GB"])
+        Assert.assertEquals("changelogs/fr/FR/v1.1.0.txt", releaseNotes["fr-FR"])
+    }
+
+    @Test
+    fun shouldGenerateForVersionForV120() {
+        val releaseNotes: Map<String, String> =
+            folder?.let { ReleaseNoteImpl().generateForVersion(it, "v1.2.0") }.orEmpty()
+
+        Assert.assertTrue(releaseNotes.isEmpty())
+    }
+
+    @Test
+    fun shouldGenerateForVersionForV200() {
+        val releaseNotes: Map<String, String> =
+            folder?.let { ReleaseNoteImpl().generateForVersion(it, "v2.0.0") }.orEmpty()
+
+        Assert.assertTrue(releaseNotes.isEmpty())
     }
 }

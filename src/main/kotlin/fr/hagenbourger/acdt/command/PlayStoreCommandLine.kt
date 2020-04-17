@@ -63,7 +63,7 @@ class PlayStorePublish : PlayStore(name = "play-store-publish", help = "Publish 
             credentialsP12 = credentialsP12,
             appName = appName,
             appPackageName = appPackageName
-        ).publish(appVersion, apk, track, ReleaseNoteImpl().generate(releaseNotes, appVersion))
+        ).publish(appVersion, apk, track, ReleaseNoteImpl().generateWithDefault(releaseNotes, appVersion))
         echo("App published")
     }
 }

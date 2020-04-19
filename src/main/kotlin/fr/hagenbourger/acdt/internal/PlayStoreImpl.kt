@@ -13,7 +13,7 @@ import java.io.File
 import java.io.FileInputStream
 
 private const val MIME_TYPE_APK: String = "application/vnd.android.package-archive"
-private const val STATUS: String = "completed"
+private const val STATUS: String = "draft"
 
 class PlayStoreImpl(
     private val serviceAccountId: String,

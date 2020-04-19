@@ -25,7 +25,7 @@ class PlayStoreImpl(
     override fun publish(appVersion: String, apk: File, track: String, releaseNotes: Map<String, String>) {
         val edits: AndroidPublisher.Edits = buildAndroidPublisher().edits()
         val edit: AppEdit = edits.insert(appPackageName, null).execute()
-        val apkResult: Apk = edits.apks().upload(appPackageName, edit.id, FileContent(MIME_TYPE_APK, apk)).execute()
+        val uploadedApk: Apk = edits.apks().upload(appPackageName, edit.id, FileContent(MIME_TYPE_APK, apk)).execute()
         edits
             .tracks()
             .update(
@@ -36,14 +36,14 @@ class PlayStoreImpl(
                     listOf(
                         TrackRelease()
                             .setName(appVersion)
-                            .setVersionCodes(listOf(apkResult.versionCode.toLong()))
+                            .setVersionCodes(listOf(uploadedApk.versionCode.toLong()))
                             .setStatus(STATUS)
                             .setReleaseNotes(releaseNotes.map { entry ->
                                 LocalizedText().setLanguage(entry.key).setText(entry.value)
                             }.toList())
                     )
                 )
-            )
+            ).execute()
         edits.commit(appPackageName, edit.id).execute()
     }
 

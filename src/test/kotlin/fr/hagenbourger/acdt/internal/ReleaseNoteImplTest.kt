@@ -1,5 +1,6 @@
 package fr.hagenbourger.acdt.internal
 
+import fr.hagenbourger.acdt.api.ast.ChangelogFormat.MARKDOWN
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -72,36 +73,32 @@ class ReleaseNoteImplTest {
 
     @Test
     fun shouldGenerateForVersionForV100() {
-        val releaseNotes: Map<String, String> =
-            folder?.let { ReleaseNoteImpl().generateForVersion(it, "v1.0.0") }.orEmpty()
+        val releaseNote: String = folder?.let { ReleaseNoteImpl().generateForVersion(it, "v1.0.0", MARKDOWN) }.orEmpty()
 
-        Assert.assertEquals(1, releaseNotes.size)
-        Assert.assertEquals("changelogs/fr/v1.0.0.txt", releaseNotes["fr"])
+        Assert.assertEquals("# fr\nchangelogs/fr/v1.0.0.txt\n", releaseNote)
     }
 
     @Test
     fun shouldGenerateForVersionForV110() {
-        val releaseNotes: Map<String, String> =
-            folder?.let { ReleaseNoteImpl().generateForVersion(it, "v1.1.0") }.orEmpty()
+        val releaseNote: String = folder?.let { ReleaseNoteImpl().generateForVersion(it, "v1.1.0", MARKDOWN) }.orEmpty()
 
-        Assert.assertEquals(2, releaseNotes.size)
-        Assert.assertEquals("changelogs/en/GB/v1.1.0.txt", releaseNotes["en-GB"])
-        Assert.assertEquals("changelogs/fr/FR/v1.1.0.txt", releaseNotes["fr-FR"])
+        Assert.assertEquals(
+            "# fr-FR\nchangelogs/fr/FR/v1.1.0.txt\n\n# en-GB\nchangelogs/en/GB/v1.1.0.txt\n",
+            releaseNote
+        )
     }
 
     @Test
     fun shouldGenerateForVersionForV120() {
-        val releaseNotes: Map<String, String> =
-            folder?.let { ReleaseNoteImpl().generateForVersion(it, "v1.2.0") }.orEmpty()
+        val releaseNote: String = folder?.let { ReleaseNoteImpl().generateForVersion(it, "v1.2.0", MARKDOWN) }.orEmpty()
 
-        Assert.assertTrue(releaseNotes.isEmpty())
+        Assert.assertTrue(releaseNote.isEmpty())
     }
 
     @Test
     fun shouldGenerateForVersionForV200() {
-        val releaseNotes: Map<String, String> =
-            folder?.let { ReleaseNoteImpl().generateForVersion(it, "v2.0.0") }.orEmpty()
+        val releaseNote: String = folder?.let { ReleaseNoteImpl().generateForVersion(it, "v2.0.0", MARKDOWN) }.orEmpty()
 
-        Assert.assertTrue(releaseNotes.isEmpty())
+        Assert.assertTrue(releaseNote.isEmpty())
     }
 }

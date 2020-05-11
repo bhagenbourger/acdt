@@ -25,12 +25,13 @@ Options:
   -h, --help  Show this message and exit
 
 Commands:
-  play-store-publish     Publish app on the play store
-  play-store-list-apks   List all apk published on the play store
-  gitlab-create-release  Create gitlab release
-  gitlab-update-release  Update gitlab release
-  gitlab-delete-release  Delete gitlab release
-  changelog-generate     Generate changelog
+  play-store-publish      Publish app on the play store
+  play-store-list-apks    List all apk published on the play store
+  gitlab-create-release   Create gitlab release
+  gitlab-update-release   Update gitlab release
+  gitlab-delete-release   Delete gitlab release
+  gitlab-close-milestone  Close gitlab milestone
+  changelog-generate      Generate changelog
 ```
 
 ## List all apk already published on the play store command
@@ -162,6 +163,21 @@ Options:
   -p, --project-id TEXT    Your Gitlab project id
   -T, --tag-name TEXT      Tag name associated to the release
   -h, --help               Show this message and exit
+```
+
+## Close a milestone in Gitlab
+`./acdt gitlab-close-milestone -h`
+```
+Usage: commandline gitlab-close-milestone [OPTIONS]
+
+  Close gitlab milestone
+
+Options:
+  -u, --url TEXT             Gitlab url
+  -t, --access-token TEXT    Your Gitlab access token
+  -p, --project-id TEXT      Your Gitlab project id
+  -N, --milestone-name TEXT  Milestone name
+  -h, --help                 Show this message and exit
 ```
 
 ## Generate changelog

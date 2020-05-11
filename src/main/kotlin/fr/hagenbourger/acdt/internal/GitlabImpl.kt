@@ -1,7 +1,9 @@
 package fr.hagenbourger.acdt.internal
 
 import fr.hagenbourger.acdt.api.Gitlab
+import org.gitlab4j.api.Constants
 import org.gitlab4j.api.GitLabApi
+import org.gitlab4j.api.models.Milestone
 import org.gitlab4j.api.models.ReleaseParams
 
 class GitlabImpl(
@@ -30,5 +32,13 @@ class GitlabImpl(
 
     override fun deleteRelease(tagName: String) {
         GitLabApi(url, accessToken).releasesApi.deleteRelease(projectId, tagName)
+    }
+
+    override fun closeMilestone(name: String): Milestone? {
+        val milestonesApi = GitLabApi(url, accessToken).milestonesApi
+        return milestonesApi
+            .getMilestones(projectId, Constants.MilestoneState.ACTIVE, name)
+            .firstOrNull { it.title == name }
+            ?.let { milestonesApi.closeMilestone(projectId, it.id) }
     }
 }

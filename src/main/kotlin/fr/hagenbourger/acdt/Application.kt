@@ -15,6 +15,7 @@ object Application {
             GitlabCreateRelease(),
             GitlabUpdateRelease(),
             GitlabDeleteRelease(),
+            GitlabCloseMilestone(),
             ChangelogGenerate()
         ).main(args)
 }

@@ -1,6 +1,7 @@
 package fr.hagenbourger.acdt.command
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.parameters.options.convert
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
@@ -86,5 +87,28 @@ class GitlabDeleteRelease : GitlabRelease(name = "gitlab-delete-release", help =
             projectId = projectId
         ).deleteRelease(releaseTagName)
         echo("Release deleted")
+    }
+}
+
+class GitlabCloseMilestone : Gitlab(name = "gitlab-close-milestone", help = "Close gitlab milestone") {
+
+    private val milestoneName: String by option(
+        "-N",
+        "--milestone-name",
+        help = "Milestone name"
+    ).required()
+
+    override fun run() {
+        echo("Start closing milestone")
+        val milestone = GitlabImpl(
+            url = url,
+            accessToken = accessToken,
+            projectId = projectId
+        ).closeMilestone(milestoneName)
+        if (milestone?.title == milestoneName) {
+            echo("Milestone closed")
+        } else {
+            throw CliktError("Milestone not found or can't be closed")
+        }
     }
 }

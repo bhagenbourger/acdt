@@ -199,7 +199,7 @@ Changelog is generated from a release notes folder which must be structured like
 
 # How to build
 `./gradlew run` : run main class  
-`./gradlew distZip` : generate zip release: build/distributions/acdt-0.1.0.zip  
-`./gradlew distTar` : generate zip release: build/distributions/acdt-0.1.0.tar  
+`./gradlew distZip` : generate zip release: build/distributions/acdt-0.2.0.zip  
+`./gradlew distTar` : generate zip release: build/distributions/acdt-0.2.0.tar  
 `./gradlew installDist` : generate runnable executable: build/install/acdt/bin/acdt
   

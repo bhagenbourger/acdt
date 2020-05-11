@@ -8,7 +8,7 @@ object Application {
 
     @JvmStatic
     fun main(args: Array<String>) = CommandLine()
-        .versionOption("0.1.0")
+        .versionOption("0.2.0")
         .subcommands(
             PlayStorePublish(),
             PlayStoreListApks(),

@@ -1,0 +1,24 @@
+image: gradle:alpine
+
+stages:
+  - test
+  - package
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+test:
+  stage: test
+  script: gradle check
+
+package:
+  stage: package
+  script: gradle distTar
+  when: manual
+  artifacts:
+    when: on_success
+    paths:
+      - build/distributions

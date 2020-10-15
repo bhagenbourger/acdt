@@ -12,7 +12,11 @@ before_script:
 
 test:
   stage: test
-  script: gradle check
+  script: gradle test
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/test/**/TEST-*.xml
 
 package:
   stage: package

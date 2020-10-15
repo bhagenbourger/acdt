@@ -16,9 +16,9 @@ class ChangelogParserTest {
         val result = ChangelogParser.parse(releaseNotes)
 
         Assert.assertEquals(2, result.entries.size)
-        Assert.assertEquals("fr", result.entries[0].header)
-        Assert.assertEquals("contentFR", result.entries[0].content)
-        Assert.assertEquals("en", result.entries[1].header)
-        Assert.assertEquals("contentEN", result.entries[1].content)
+        Assert.assertEquals("en", result.entries[0].header)
+        Assert.assertEquals("contentEN", result.entries[0].content)
+        Assert.assertEquals("fr", result.entries[1].header)
+        Assert.assertEquals("contentFR", result.entries[1].content)
     }
 }

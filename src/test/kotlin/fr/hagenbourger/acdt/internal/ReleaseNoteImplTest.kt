@@ -83,7 +83,7 @@ class ReleaseNoteImplTest {
         val releaseNote: String = folder?.let { ReleaseNoteImpl().generateForVersion(it, "v1.1.0", MARKDOWN) }.orEmpty()
 
         Assert.assertEquals(
-            "# fr-FR\nchangelogs/fr/FR/v1.1.0.txt\n\n# en-GB\nchangelogs/en/GB/v1.1.0.txt\n",
+            "# en-GB\nchangelogs/en/GB/v1.1.0.txt\n\n# fr-FR\nchangelogs/fr/FR/v1.1.0.txt\n",
             releaseNote
         )
     }

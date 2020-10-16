@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'fr.hagenbourger'
-version '0.2.0'
+version '0.2.1'
 
 application {
     mainClassName = 'fr.hagenbourger.acdt.Application'

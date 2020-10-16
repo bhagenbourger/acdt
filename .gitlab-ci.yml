@@ -3,6 +3,7 @@ image: gradle:6.7
 stages:
   - test
   - package
+  - publish
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
@@ -26,3 +27,8 @@ package:
     when: on_success
     paths:
       - build/distributions
+
+publish:
+  stage: publish
+  script: gradle publish
+  when: manual

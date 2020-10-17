@@ -2,8 +2,9 @@ image: gradle:6.7
 
 stages:
   - test
-  - package
   - publish
+  - docker-package
+  - docker-build
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
@@ -19,8 +20,13 @@ test:
     reports:
       junit: build/test-results/test/**/TEST-*.xml
 
-package:
-  stage: package
+publish:
+  stage: publish
+  script: gradle publish
+  when: manual
+
+docker-package:
+  stage: docker-package
   script: gradle distTar
   when: manual
   artifacts:
@@ -28,7 +34,16 @@ package:
     paths:
       - build/distributions
 
-publish:
-  stage: publish
-  script: gradle publish
-  when: manual
+docker-build:
+  image: docker:latest
+  stage: docker-build
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - VERSION_NUMBER=$(ls build/distributions/*.tar|sed 's/build\/distributions\/acdt-\(.*\)\.tar/\1/')
+    - cp build/distributions/acdt-*.tar docker
+    - docker build -t "$CI_REGISTRY_IMAGE:$VERSION_NUMBER" docker/.
+    - docker push "$CI_REGISTRY_IMAGE:$VERSION_NUMBER"
+

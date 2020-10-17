@@ -3,7 +3,7 @@ image: gradle:6.7
 stages:
   - test
   - publish
-  - docker-package
+  - tag
   - docker-build
 
 variables:
@@ -22,17 +22,30 @@ test:
 
 publish:
   stage: publish
-  script: gradle publish
-  when: manual
-
-docker-package:
-  stage: docker-package
-  script: gradle distTar
-  when: manual
+  script: gradle distTar publish
   artifacts:
     when: on_success
     paths:
       - build/distributions
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: manual
+      allow_failure: false
+
+tag:
+  image: registry.gitlab.com/bhagenbourger/docker-alpine-git:latest
+  stage: tag
+  script:
+    - VERSION_NUMBER=$(ls build/distributions/*.tar|sed 's/build\/distributions\/acdt-\(.*\)\.tar/\1/')
+    - git config user.email "${GITLAB_USER_EMAIL}"
+    - git config user.name "${GITLAB_USER_NAME}"
+    - git remote add api-origin "https://oauth2:${GITLAB_REPOSITORY_KEY}@gitlab.com/${CI_PROJECT_PATH}.git"
+    - git tag -a "v${VERSION_NUMBER}" -m "Version ${VERSION_NUMBER}"
+    - git push --tags api-origin
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: on_success
+      allow_failure: false
 
 docker-build:
   image: docker:latest
@@ -46,4 +59,7 @@ docker-build:
     - cp build/distributions/acdt-*.tar docker
     - docker build -t "$CI_REGISTRY_IMAGE:$VERSION_NUMBER" docker/.
     - docker push "$CI_REGISTRY_IMAGE:$VERSION_NUMBER"
-
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: on_success
+      allow_failure: false

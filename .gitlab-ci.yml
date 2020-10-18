@@ -28,7 +28,7 @@ publish:
     paths:
       - build/distributions
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_COMMIT_BRANCH == "1-add-gitlab-ci"'
       when: manual
       allow_failure: false
 
@@ -43,7 +43,7 @@ tag:
     - git tag -a "v${VERSION_NUMBER}" -m "Version ${VERSION_NUMBER}"
     - git push --tags api-origin
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_COMMIT_BRANCH == "1-add-gitlab-ci"'
       when: on_success
       allow_failure: false
 
@@ -60,6 +60,6 @@ docker-build:
     - docker build -t "$CI_REGISTRY_IMAGE:$VERSION_NUMBER" docker/.
     - docker push "$CI_REGISTRY_IMAGE:$VERSION_NUMBER"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_COMMIT_BRANCH == "1-add-gitlab-ci"'
       when: on_success
       allow_failure: false
